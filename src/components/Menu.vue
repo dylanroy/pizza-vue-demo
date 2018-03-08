@@ -23,7 +23,10 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Shopping Basket -->
         <div class="col-sm-12 col-md-6">
+            <div v-if="basket.length > 0">
             <table class="table">
                 <thead class="thead-default">
                     <tr>
@@ -32,18 +35,24 @@
                         <th>Total</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody v-for="item in basket">
                     <tr>
-                        <td><button class="btn btn-sm" type="button">-</button>
-                        <span>1</span>
-                        <button class="btn btn-sm" type="button">+</button></td>
-                        <td>Margherita 9"</td>
-                        <td>9.95</td>
+                        <td><button class="btn btn-sm"
+                            type="button"
+                            @click="decreaseQuantity(item)">-</button>
+                        <span>{{ item.quantity }}</span>
+                        <button class="btn btn-sm"
+                            type="button"
+                            @click="increaseQuantity(item)">+</button></td>
+                        <td>{{ item.name }} {{ item.size }}"</td>
+                        <td>{{ item.price * item.quantity }}</td>
                     </tr>
                 </tbody>
             </table>
             <p>Order total: </p>
             <button class="btn btn-success btn-block">Place Order</button>
+            </div>
+            <div v-else>{{ basketText }}</div>
         </div>
     </div>
 </template>
@@ -52,6 +61,7 @@
         data(){
             return {
                 basket: [],
+                basketText: "Your basket is empty",
                 getMenuItems: {
                     1: {
                       'name': 'Margherita',
@@ -97,6 +107,19 @@
                     size:option.size,
                     quantity:1
                 })
+            },
+            increaseQuantity(item){
+                item.quantity++;
+            },
+            decreaseQuantity(item){
+                item.quantity--;
+
+                if(item.quantity<= 0){
+                    this.removeFromBasket(item);
+                }
+            },
+            removeFromBasket(item){
+                this.basket.splice(this.basket.indexOf(item), 1);
             }
         }
     }
