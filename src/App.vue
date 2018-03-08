@@ -4,7 +4,7 @@
       <pp-header></pp-header>
     </div>
     <div class="container">
-      <pp-home></pp-home>
+      <pp-menu></pp-menu>
     </div>
     <div class="container">
       <pp-footer></pp-footer>
